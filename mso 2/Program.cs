@@ -6,22 +6,38 @@ class Program
 {
     static void Main()
     {
+        ICommand command = new CompositeCommand();
         Grid grid = new Grid(0, 0);
-        MoveEntity entity = new MoveEntity(new Vector2(1,0), new Vector2(0, 0), grid);
+        MoveEntity entity = new MoveEntity(new Vector2(1, 0), new Vector2(0, 0), grid);
 
-        var move = new MoveCommand(10);
-        var turnRight = new TurnCommand(TurnDirection.Right);
-        var repeat = new RepeatCommand(4);
+        Console.Write("Choose (example/file): ");
+        var inputType = Console.ReadLine();
 
-        var composite = new CompositeCommand();
-        composite.Add(repeat);
-        repeat.Add(move);
+        try
+        {
+            var input = InputFactory.Create(inputType);
+            command = input.Read();
+        }
+        catch (ArgumentException ex)
+        {
+            throw new ArgumentException(ex.ToString());
+        }
 
-        Console.WriteLine(composite.Execute(entity));
-        Console.WriteLine(entity.GetStatusString());
+        Console.WriteLine("Choose (steps/metric): ");
+        switch (Console.ReadLine())
+        {
+            case "steps":
+                Console.WriteLine("\n" + command.Execute(entity));
+                Console.WriteLine(entity.GetStatusString());
+                break;
 
-        Metrics metrics = new Metrics(composite);
-        metrics.Analyze();
-        Console.WriteLine(metrics.getStringData());
+            case "metric":
+                Metrics metrics = new Metrics(command);
+                metrics.Analyze();
+                Console.WriteLine(metrics.getStringData());
+                break;
+
+            default: throw new ArgumentException("Unknown output type");
+        }
     }
 }

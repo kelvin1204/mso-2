@@ -12,9 +12,9 @@ namespace mso_2
         {
             return type switch
             {
-                "console" => new ConsoleInput(),
+                "example" => new ExampleInput(),
                 "file" => new FileInput(),
-                _ => throw new ArgumentException("Onbekend inputtype")
+                _ => throw new ArgumentException("Unknown input type")
             };
         }
     }
