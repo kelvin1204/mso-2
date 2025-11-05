@@ -41,7 +41,7 @@
             TextBox.Name = "TextBox";
             TextBox.Size = new Size(598, 322);
             TextBox.TabIndex = 0;
-            TextBox.Text = "sletje";
+            TextBox.Text = "";
             TextBox.TextChanged += TextBox_TextChanged;
             // 
             // Run
