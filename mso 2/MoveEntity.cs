@@ -8,7 +8,7 @@ using mso_2;
 
 namespace mso_3
 {
-    internal class MoveEntity
+    public class MoveEntity
     {
         public Vector2 direction;
         public Vector2 position;

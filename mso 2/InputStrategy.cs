@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.LinkLabel;
 
 namespace mso_2
 {
@@ -14,11 +15,16 @@ namespace mso_2
 
     internal class ExampleInput : IInputStrategy
     {
+        string example;
+        public ExampleInput(string[] input) 
+        {
+            example = input[0];
+        }
         public ICommand Read() 
         {
             Console.WriteLine("Choose: beginner/intermediate/advanced");
 
-            return (Console.ReadLine()) switch
+            return (example) switch
             {
                 "beginner" => new BasicProgram().GetCommand(),
                 "intermediate" => new IntermediateProgram().GetCommand(),
@@ -28,52 +34,39 @@ namespace mso_2
         }
     }
 
-    internal class FileInput : IInputStrategy
+    internal class StringInput : IInputStrategy 
     {
-        public ICommand Read() 
+        protected CompositeCommand command;
+        protected List<RepeatCommand> nestedCommands;
+
+        string[] lines = null;
+        public StringInput(string[] Lines)
         {
-            Console.WriteLine("Write filename: ");
-            string fileName = Console.ReadLine();
-
-            ReadFile(fileName);
-            return command;
-        }
-
-        CompositeCommand command;
-        List<RepeatCommand> nestedCommands;
-
-        public FileInput() 
-        {
+            this.lines = Lines;
             command = new CompositeCommand();
             nestedCommands = new List<RepeatCommand>();
         }
-
-        private void ReadFile(string fileName)
+        public virtual ICommand Read() 
         {
-            if (!File.Exists(fileName))
-                throw new ArgumentException("File does not exist");
-
-            using (StreamReader reader = new StreamReader(fileName))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
+            if (lines != null)
+                foreach (string line in lines)
                     ProcessLine(line);
-                }
-            }
+
+            return command; 
         }
 
-        internal void ProcessLine(string line) 
+        internal void ProcessLine(string line)
         {
             int lineIndenation = CountIndentation(line);
             int lineNestDepth = lineIndenation / 4;
             int nests = nestedCommands.Count;
 
+
             String[] lineArgs = line.Substring(lineIndenation).Split(" ");
 
             ICommand lineCommand;
 
-            switch (lineArgs[0]) 
+            switch (lineArgs[0])
             {
                 case "Move": lineCommand = ProcessMove(lineArgs[1]); break;
                 case "Repeat": lineCommand = ProcessRepeat(lineArgs[1]); break;
@@ -84,21 +77,21 @@ namespace mso_2
             if (lineIndenation == 0)
                 command.Add(lineCommand);
 
-            else if (lineNestDepth < nests) 
+            else if (lineNestDepth < nests)
             {
                 Console.WriteLine(line);
                 Console.WriteLine(lineNestDepth.ToString());
                 nestedCommands = nestedCommands[..^(nests - lineNestDepth)];
             }
 
-            else if (lineArgs[0] == "Repeat") 
+            else if (lineArgs[0] == "Repeat")
                 nestedCommands[^2].Add(lineCommand);
-            
+
             else
                 nestedCommands[^1].Add(lineCommand);
         }
 
-        private ICommand ProcessMove(string steps) 
+        private ICommand ProcessMove(string steps)
         {
             try
             {
@@ -149,6 +142,41 @@ namespace mso_2
             }
 
             return count;
+        }
+    }
+
+    internal class FileInput : StringInput
+    {
+        string filePath = null;
+
+        public FileInput(string[] Lines) : base(Lines)
+        {
+            this.filePath = Lines[0];
+        }
+        public override ICommand Read() 
+        {
+            ReadFile(filePath);
+            return command;
+        }
+
+        public void SetFilePath(string FilePath) 
+        {
+            filePath = FilePath;
+        }
+
+        private void ReadFile(string fileName)
+        {
+            if (!File.Exists(fileName))
+                throw new ArgumentException("File does not exist");
+
+            using (StreamReader reader = new StreamReader(fileName))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    ProcessLine(line);
+                }
+            }
         }
     }
 }

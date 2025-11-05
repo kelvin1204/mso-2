@@ -8,7 +8,7 @@ using mso_3;
 
 namespace mso_2
 {
-    internal class Grid
+    public class Grid
     {
         private int _width;
         private int _height;
