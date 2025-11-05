@@ -1,0 +1,78 @@
+using mso_3;
+using System.Numerics;
+using Xunit;
+
+namespace mso_2
+{
+    public class GridTests
+    {
+        [Fact]
+        public void TryMove_ReturnsTrue()
+        {
+            Grid grid = new Grid(5, 5);
+            MoveEntity entity = new MoveEntity(new Vector2(-1, 0), new Vector2(), grid);
+
+            bool result = grid.TryMove(entity, 2);
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void CheckBoundsWorksInBounds()
+        {
+            // Given
+            Grid grid = new Grid(5, 5);
+            MoveEntity entity = new MoveEntity(new Vector2(1, 0), new Vector2(), grid);
+            // When
+            bool result = grid.CheckBounds(entity.position);            
+            // Then
+            Assert.True(result);
+        }
+        [Fact]
+        public void CheckBoundsWorksOutBounds()
+        {
+            // Given
+            Grid grid = new Grid(5, 5);
+            MoveEntity entity = new MoveEntity(new Vector2(-1, 0), new Vector2(), grid);
+            // When
+            bool result = grid.CheckBounds(new Vector2(6, 6));
+            // Then
+            Assert.False(result);
+        }
+        [Fact]
+        public void CheckAheadWorksOccupied()
+        {
+            // Given
+            Grid grid = new Grid(5, 5);
+            MoveEntity entity = new MoveEntity(new Vector2(1, 0), new Vector2(2, 2), grid);
+            grid._occupied[3, 2] = true;
+            // When
+            bool result = grid.CheckAhead(entity);
+            // Then
+            Assert.True(result);
+        }
+        [Fact]
+        public void CheckAheadWorksUnoccupied()
+        {
+            // Given
+            Grid grid = new Grid(5, 5);
+            MoveEntity entity = new MoveEntity(new Vector2(1, 0), new Vector2(2, 2), grid);
+            grid._occupied[3, 2] = false;
+            // When
+            bool result = grid.CheckAhead(entity);
+            // Then
+            Assert.False(result);
+        }
+        [Fact]
+        public void SwitchOccupiedWorks()
+        {
+            // Given
+            Grid grid = new Grid(5, 5);
+            grid._occupied[2, 2] = false;
+            // When
+            grid.SwitchOccupied(2, 2);
+            // Then
+            Assert.True(grid._occupied[2, 2]);
+        }
+    }
+}
