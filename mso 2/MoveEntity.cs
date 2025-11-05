@@ -10,8 +10,8 @@ namespace mso_3
 {
     internal class MoveEntity
     {
-        private Vector2 direction;
-        private Vector2 position;
+        public Vector2 direction;
+        public Vector2 position;
         private Grid grid;
 
         public MoveEntity(Vector2 Direction, Vector2 Position, Grid _grid)
