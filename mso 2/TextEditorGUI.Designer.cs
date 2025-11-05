@@ -31,6 +31,7 @@
             TextBox = new TextBox();
             Run = new Button();
             Metrics = new Button();
+            Output = new TextBox();
             SuspendLayout();
             // 
             // TextBox
@@ -67,15 +68,25 @@
             Metrics.UseVisualStyleBackColor = false;
             Metrics.Click += Metrics_Click;
             // 
+            // Output
+            // 
+            Output.Location = new Point(3, 374);
+            Output.Multiline = true;
+            Output.Name = "Output";
+            Output.ReadOnly = true;
+            Output.Size = new Size(595, 34);
+            Output.TabIndex = 3;
+            // 
             // TextEditorGUI
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(Output);
             Controls.Add(Metrics);
             Controls.Add(Run);
             Controls.Add(TextBox);
             Name = "TextEditorGUI";
-            Size = new Size(611, 375);
+            Size = new Size(611, 557);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -85,5 +96,6 @@
         private TextBox TextBox;
         private Button Run;
         private Button Metrics;
+        private TextBox Output;
     }
 }

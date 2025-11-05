@@ -8,12 +8,13 @@ namespace mso_2
 {
     internal static class InputFactory
     {
-        public static IInputStrategy Create(string type)
+        public static IInputStrategy Create(string type, string[] arguments)
         {
             return type switch
             {
-                "example" => new ExampleInput(),
-                "file" => new FileInput(),
+                "example" => new ExampleInput(arguments),
+                "file" => new FileInput(arguments),
+                "string" => new StringInput(arguments),
                 _ => throw new ArgumentException("Unknown input type")
             };
         }

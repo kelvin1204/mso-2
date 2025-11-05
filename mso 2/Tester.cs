@@ -78,7 +78,7 @@ namespace mso_2
         [Fact]
         public void Create_ShouldThrowException_ForUnknownType()
         {
-            Assert.Throws<ArgumentException>(() => InputFactory.Create("invalid"));
+            Assert.Throws<ArgumentException>(() => InputFactory.Create("invalid", []));
         }
 
 

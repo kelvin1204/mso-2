@@ -8,7 +8,7 @@ using mso_3;
 
 namespace mso_2
 {
-    internal interface ICommand
+    public interface ICommand
     {
         String Execute(MoveEntity entity);
     }
