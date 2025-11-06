@@ -68,15 +68,16 @@ namespace mso_2
 
         public bool TryMove(MoveEntity entity, int steps)
         {   
-
             return true;
         }
         //find the position ahead of the moveentity, and see if it is occupied
-        public bool CheckAhead(MoveEntity entity) 
+        public bool CheckAhead(MoveEntity entity)
         {
             Vector2 ahead = entity.position + entity.direction;
-            return (_occupied[(int)ahead.X, (int)ahead.Y]&&CheckBounds(ahead));     
+            //we want it to return true if the position ahead is unoccupied (occupied is false) and within bounds
+            return (!_occupied[(int)ahead.X, (int)ahead.Y] && CheckBounds(ahead));
         }
+        //check if the given position is within the grid bounds
         public bool CheckBounds(Vector2 position)
         {
             return (position.X <= _width && position.Y <= _height);
