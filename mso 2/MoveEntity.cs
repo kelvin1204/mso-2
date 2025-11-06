@@ -49,9 +49,23 @@ namespace mso_3
 
         public string Move(int steps)
         {
-            position += direction * steps;
+            // Move step-by-step, checking bounds and occupancy at each step.
+            for (int i = 0; i < steps; i++)
+            {
+                Vector2 next = position + direction;
 
-            lastPositions.Add(position);
+                // Check bounds first
+                if (!grid.CheckBounds(next))
+                    throw new mso_2.OutOfBoundsException($"Attempted to move outside grid to {next}.");
+
+                // Check occupancy
+                if (!grid.CheckPositionFree(next))
+                    throw new mso_2.BlockedCellException($"Attempted to move into blocked cell at {next}.");
+
+                // Valid move: update position and record path
+                position = next;
+                lastPositions.Add(position);
+            }
 
             return "Move " + steps.ToString();
         }
