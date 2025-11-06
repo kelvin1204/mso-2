@@ -6,18 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using mso_3;
 
-namespace mso_2
+namespace mso_2.Commands
 {
     public interface ICommand
     {
-        String Execute(MoveEntity entity);
+        string Execute(MoveEntity entity);
     }
 
     internal class MoveCommand : ICommand
     {
         private int _steps;
         public MoveCommand(int steps) => _steps = steps;
-        public String Execute(MoveEntity entity) => entity.Move(_steps);
+        public string Execute(MoveEntity entity) => entity.Move(_steps);
     }
     public enum TurnDirection
     {
@@ -28,7 +28,7 @@ namespace mso_2
     {
         private TurnDirection _turnDirection;
         public TurnCommand(TurnDirection turnDirection) => _turnDirection = turnDirection;
-        public String Execute(MoveEntity entity) => entity.Turn(_turnDirection);
+        public string Execute(MoveEntity entity) => entity.Turn(_turnDirection);
     }
 
     internal class CompositeCommand : ICommand
@@ -37,14 +37,16 @@ namespace mso_2
 
         public void Add(ICommand command) => _commands.Add(command);
 
-        public String Execute(MoveEntity entity)
+        public string Execute(MoveEntity entity)
         {
-            String result = "";
+            entity.ResetLastPositions();
+
+            string result = "";
 
             foreach (var command in _commands)
                 result += command.Execute(entity) + ", ";
 
-            return result[..^2] + ".";
+            return result.TrimEnd(',', ' ') + ".";
         }
     }
     internal class RepeatCommand : ICommand
@@ -56,7 +58,7 @@ namespace mso_2
 
         public void Add(ICommand command) => _commands.Add(command);
 
-        public String Execute(MoveEntity entity)
+        public string Execute(MoveEntity entity)
         {
             string result = "";
 
@@ -66,7 +68,7 @@ namespace mso_2
                     result += command.Execute(entity) + ", ";
             }
 
-            return result[..^2];
+            return result.TrimEnd(',', ' ');
         }
     }
 }

@@ -10,8 +10,8 @@ namespace mso_2
 {
     public class Grid
     {
-        private int _width;
-        private int _height;
+        public int _width { get; }
+        public int _height { get; }
         public bool[,] _occupied { get; set; }
 
         public Vector2 goal;
