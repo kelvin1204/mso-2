@@ -40,7 +40,7 @@ namespace mso_2.Commands
                     break;
 
                 case MoveCommand moveCommand:
-                    totalCommands++;
+                    totalCommands++ ;
                     break;
 
                 case TurnCommand turnCommand:

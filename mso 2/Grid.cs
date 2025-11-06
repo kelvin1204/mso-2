@@ -10,8 +10,8 @@ namespace mso_2
 {
     public class Grid
     {
-        public int _width { get; }
-        public int _height { get; }
+        public int _width { get; private set; }
+        public int _height { get; private set; }
         public bool[,] _occupied { get; set; }
 
         public Vector2 goal;
@@ -28,42 +28,36 @@ namespace mso_2
             this._occupied[x, y] = !this._occupied[x, y];
         }
 
-        public static Grid ImportOccupied()
+        public void ImportOccupied(string filePath)
         {
-            ///for now hardread the path from example.txt
-            ///later make it read from a file given by the user
-            string path = "C:\\Users\\storm\\Documents\\GitHub\\mso-2\\mso 2\\example.txt";
-            string[] lines = System.IO.File.ReadAllLines(path);
-            int width = lines[0].Length;
-            int height = lines.Length;
-            Grid grid = new Grid(width, height);
-            bool[,] occupied = new bool[width, height];
-            Vector2 goal = new Vector2(0, 0);
+            string[] lines = System.IO.File.ReadAllLines(filePath);
+            _width = lines[0].Length;
+            _height = lines.Length;
+            bool[,] occupied = new bool[_width, _height];
+            goal = new Vector2(0, 0);
+
             //parse the lines into the occupied grid
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < _height; y++)
             {
-                for (int x = 0; x < width; x++)
+                for (int x = 0; x < _width; x++)
                 {
                     switch (lines[y][x])
                     {
                         case '+':
-                            occupied[x, y] = true;
+                            _occupied[x, y] = true;
                             break;
                         case 'o':
-                            occupied[x, y] = false;
+                            _occupied[x, y] = false;
                             break;
                         case 'x':
                             goal = new Vector2(x, y);
-                            occupied[x, y] = false;
+                            _occupied[x, y] = false;
                             break;
                         default:
                             throw new ArgumentException("Invalid character in input file");
                     }
                 }
             }
-            grid._occupied = occupied;
-            grid.goal = goal;
-            return grid;
         }
 
         public bool TryMove(MoveEntity entity, int steps)

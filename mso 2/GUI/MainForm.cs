@@ -20,7 +20,7 @@ namespace mso_2
 
             clientGUI = new ClientGUI();
 
-            var LoadProgramsGUI = new LoadProgramsGUI();
+            var LoadProgramsGUI = new LoadProgramsGUI(clientGUI);
             LoadProgramsGUI.Location = new Point(10, 10);
             this.Controls.Add(LoadProgramsGUI);
 
@@ -35,6 +35,7 @@ namespace mso_2
 
             LoadProgramsGUI.SetEditorText += (s, msg) => TextEditorGUI.SetEditorText(msg);
             TextEditorGUI.UpdateGrid += (s, msg) => GridGUI.Invalidate();
+            LoadProgramsGUI.UpdateGrid += (s, msg) => GridGUI.Invalidate();
         }
 
         private void MainForm_Load(object sender, EventArgs e)

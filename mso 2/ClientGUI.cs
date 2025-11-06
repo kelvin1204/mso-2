@@ -63,5 +63,10 @@ namespace mso_2
         {
             return entity.lastPositions;
         }
+
+        public void LoadGridFromFile(string filePath)
+        {
+            grid.ImportOccupied(filePath);
+        }
     }
 }
