@@ -15,12 +15,17 @@ namespace mso_2
     {
         bool visible;
 
+        public event EventHandler? UpdateGrid;
+
         public event EventHandler<string>? SetEditorText;
-        public LoadProgramsGUI()
+        ClientGUI clientGUI;
+        public LoadProgramsGUI(ClientGUI ClientGUI)
         {
             InitializeComponent();
 
             visible = false;
+
+            clientGUI = ClientGUI;
 
             BeginnerProgram.Visible = visible;
             IntermediateProgram.Visible = visible;
@@ -86,7 +91,8 @@ namespace mso_2
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string filePath = openFileDialog.FileName;
-                //implementeer hier dat de grid via client iets laad
+                clientGUI.LoadGridFromFile(filePath);
+                UpdateGrid?.Invoke(this, new EventArgs());
             }
         }
     }

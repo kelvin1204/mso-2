@@ -30,6 +30,7 @@ namespace mso_2
 
         public string ExecuteCommand(string type, string[] data)
         {
+            entity.ResetPosition();
             ICommand cmd = BuildCommand(type, data);
 
             return cmd.Execute(entity) + " " + entity.GetStatusString();
@@ -62,6 +63,11 @@ namespace mso_2
         public List<Vector2> GetPlayerLastPositions()
         {
             return entity.lastPositions;
+        }
+
+        public void LoadGridFromFile(string filePath)
+        {
+            grid.ImportOccupied(filePath);
         }
     }
 }

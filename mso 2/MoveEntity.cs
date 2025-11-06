@@ -25,6 +25,11 @@ namespace mso_3
             lastPositions = new List<Vector2>();
         }
 
+        public void ResetPosition() 
+        {
+            position = new Vector2(0, 0);
+        }
+
         public string Turn(TurnDirection turnDirection)
         {
             if (turnDirection == TurnDirection.Right)

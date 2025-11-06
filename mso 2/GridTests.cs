@@ -67,7 +67,8 @@ namespace mso_2
         public void ImportOccupiedWorks()
         {
             // When
-            Grid grid = Grid.ImportOccupied();
+            Grid grid = new Grid(5, 5);
+            grid.ImportOccupied(@"..\..\..\example.txt");
             // Then
             Assert.False(grid._occupied[0, 0]);
             Assert.True(grid._occupied[3, 0]);
