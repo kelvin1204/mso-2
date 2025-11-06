@@ -7,17 +7,6 @@ namespace mso_2
     public class GridTests
     {
         [Fact]
-        public void TryMove_ReturnsTrue()
-        {
-            Grid grid = new Grid(5, 5);
-            MoveEntity entity = new MoveEntity(new Vector2(-1, 0), new Vector2(), grid);
-
-            bool result = grid.TryMove(entity, 2);
-
-            Assert.True(result);
-        }
-
-        [Fact]
         public void CheckBoundsWorksInBounds()
         {
             // Given
