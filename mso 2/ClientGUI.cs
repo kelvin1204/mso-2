@@ -30,6 +30,7 @@ namespace mso_2
 
         public string ExecuteCommand(string type, string[] data)
         {
+            entity.ResetPosition();
             ICommand cmd = BuildCommand(type, data);
 
             return cmd.Execute(entity) + " " + entity.GetStatusString();
