@@ -74,5 +74,15 @@ namespace mso_2
             // Then
             Assert.True(grid._occupied[2, 2]);
         }
+        [Fact]
+        public void ImportOccupiedWorks()
+        {
+            // When
+            Grid grid = Grid.ImportOccupied();
+            // Then
+            Assert.False(grid._occupied[0, 0]);
+            Assert.True(grid._occupied[3, 0]);
+            Assert.True(grid.goal.X == 4 && grid.goal.Y == 4);
+        }
     }
 }

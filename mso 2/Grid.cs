@@ -14,6 +14,8 @@ namespace mso_2
         private int _height;
         public bool[,] _occupied { get; set; }
 
+        public Vector2 goal;
+
         public Grid(int width, int height)
         {
             _width = width;
@@ -26,21 +28,47 @@ namespace mso_2
             this._occupied[x, y] = !this._occupied[x, y];
         }
 
-        public void ImportOccupied() 
-        { 
-            //dunno what we wanna do for reading in files yet 
-            //todo
-        }
-
-        public bool TryMove(MoveEntity entity, int steps) 
+        public static Grid ImportOccupied()
         {
-            for (int i = 0; i < steps; i++)
+            ///for now hardread the path from example.txt
+            ///later make it read from a file given by the user
+            string path = "C:\\Users\\storm\\Documents\\GitHub\\mso-2\\mso 2\\example.txt";
+            string[] lines = System.IO.File.ReadAllLines(path);
+            int width = lines[0].Length;
+            int height = lines.Length;
+            Grid grid = new Grid(width, height);
+            bool[,] occupied = new bool[width, height];
+            Vector2 goal = new Vector2(0, 0);
+            //parse the lines into the occupied grid
+            for (int y = 0; y < height; y++)
             {
-                if (CheckAhead(entity)) 
-                { 
-                    
+                for (int x = 0; x < width; x++)
+                {
+                    switch (lines[y][x])
+                    {
+                        case '+':
+                            occupied[x, y] = true;
+                            break;
+                        case 'o':
+                            occupied[x, y] = false;
+                            break;
+                        case 'x':
+                            goal = new Vector2(x, y);
+                            occupied[x, y] = false;
+                            break;
+                        default:
+                            throw new ArgumentException("Invalid character in input file");
+                    }
                 }
             }
+            grid._occupied = occupied;
+            grid.goal = goal;
+            return grid;
+        }
+
+        public bool TryMove(MoveEntity entity, int steps)
+        {   
+
             return true;
         }
         //find the position ahead of the moveentity, and see if it is occupied
