@@ -32,6 +32,8 @@
             BeginnerProgram = new Button();
             IntermediateProgram = new Button();
             AdvancedProgram = new Button();
+            LoadFile = new Button();
+            LoadGrid = new Button();
             SuspendLayout();
             // 
             // LoadProgram
@@ -82,11 +84,37 @@
             AdvancedProgram.UseVisualStyleBackColor = false;
             AdvancedProgram.Click += AdvancedProgram_Click;
             // 
+            // LoadFile
+            // 
+            LoadFile.BackColor = Color.Purple;
+            LoadFile.ForeColor = Color.White;
+            LoadFile.Location = new Point(18, 245);
+            LoadFile.Name = "LoadFile";
+            LoadFile.Size = new Size(120, 41);
+            LoadFile.TabIndex = 4;
+            LoadFile.Text = "Load File";
+            LoadFile.UseVisualStyleBackColor = false;
+            LoadFile.Click += LoadFile_Click;
+            // 
+            // LoadGrid
+            // 
+            LoadGrid.BackColor = Color.OliveDrab;
+            LoadGrid.ForeColor = Color.White;
+            LoadGrid.Location = new Point(3, 292);
+            LoadGrid.Name = "LoadGrid";
+            LoadGrid.Size = new Size(161, 59);
+            LoadGrid.TabIndex = 5;
+            LoadGrid.Text = "Load Grid";
+            LoadGrid.UseVisualStyleBackColor = false;
+            LoadGrid.Click += LoadGrid_Click;
+            // 
             // LoadProgramsGUI
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlLightLight;
+            Controls.Add(LoadGrid);
+            Controls.Add(LoadFile);
             Controls.Add(BeginnerProgram);
             Controls.Add(IntermediateProgram);
             Controls.Add(AdvancedProgram);
@@ -102,5 +130,8 @@
         private Button BeginnerProgram;
         private Button IntermediateProgram;
         private Button AdvancedProgram;
+        private Button button1;
+        private Button LoadFile;
+        private Button LoadGrid;
     }
 }

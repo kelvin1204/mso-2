@@ -41,8 +41,6 @@
             TextBox.Name = "TextBox";
             TextBox.Size = new Size(598, 322);
             TextBox.TabIndex = 0;
-            TextBox.Text = "";
-            TextBox.TextChanged += TextBox_TextChanged;
             // 
             // Run
             // 
@@ -70,11 +68,12 @@
             // 
             // Output
             // 
+            Output.BackColor = SystemColors.Info;
             Output.Location = new Point(3, 374);
             Output.Multiline = true;
             Output.Name = "Output";
             Output.ReadOnly = true;
-            Output.Size = new Size(595, 34);
+            Output.Size = new Size(595, 111);
             Output.TabIndex = 3;
             // 
             // TextEditorGUI

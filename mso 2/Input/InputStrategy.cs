@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using mso_2.Commands;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.LinkLabel;
 
-namespace mso_2
+namespace mso_2.Input
 {
     internal interface IInputStrategy
     {
@@ -16,15 +17,15 @@ namespace mso_2
     internal class ExampleInput : IInputStrategy
     {
         string example;
-        public ExampleInput(string[] input) 
+        public ExampleInput(string[] input)
         {
             example = input[0];
         }
-        public ICommand Read() 
+        public ICommand Read()
         {
             Console.WriteLine("Choose: beginner/intermediate/advanced");
 
-            return (example) switch
+            return example switch
             {
                 "beginner" => new BasicProgram().GetCommand(),
                 "intermediate" => new IntermediateProgram().GetCommand(),
@@ -34,7 +35,7 @@ namespace mso_2
         }
     }
 
-    internal class StringInput : IInputStrategy 
+    internal class StringInput : IInputStrategy
     {
         protected CompositeCommand command;
         protected List<RepeatCommand> nestedCommands;
@@ -42,17 +43,17 @@ namespace mso_2
         string[] lines = null;
         public StringInput(string[] Lines)
         {
-            this.lines = Lines;
+            lines = Lines;
             command = new CompositeCommand();
             nestedCommands = new List<RepeatCommand>();
         }
-        public virtual ICommand Read() 
+        public virtual ICommand Read()
         {
             if (lines != null)
                 foreach (string line in lines)
                     ProcessLine(line);
 
-            return command; 
+            return command;
         }
 
         internal void ProcessLine(string line)
@@ -62,7 +63,7 @@ namespace mso_2
             int nests = nestedCommands.Count;
 
 
-            String[] lineArgs = line.Substring(lineIndenation).Split(" ");
+            string[] lineArgs = line.Substring(lineIndenation).Split(" ");
 
             ICommand lineCommand;
 
@@ -151,15 +152,15 @@ namespace mso_2
 
         public FileInput(string[] Lines) : base(Lines)
         {
-            this.filePath = Lines[0];
+            filePath = Lines[0];
         }
-        public override ICommand Read() 
+        public override ICommand Read()
         {
             ReadFile(filePath);
             return command;
         }
 
-        public void SetFilePath(string FilePath) 
+        public void SetFilePath(string FilePath)
         {
             filePath = FilePath;
         }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace mso_2
+namespace mso_2.Commands
 {
     internal class Metrics
     {
@@ -13,18 +13,18 @@ namespace mso_2
         int totalCommands = 0;
         int nests = 0;
         int repeats = 0;
-        public Metrics(ICommand Command) 
+        public Metrics(ICommand Command)
         {
             command = Command;
         }
 
-        public void Analyze() 
+        public void Analyze()
         {
             Travel(command, 0);
         }
-        public void Travel(ICommand command, int depth) 
+        public void Travel(ICommand command, int depth)
         {
-            switch (command) 
+            switch (command)
             {
                 case RepeatCommand repeatCommand:
                     repeats++;
@@ -49,7 +49,7 @@ namespace mso_2
             }
         }
 
-        public String getStringData()
+        public string getStringData()
         {
             string data = "";
             data += "No. of commands: " + totalCommands + "\n";

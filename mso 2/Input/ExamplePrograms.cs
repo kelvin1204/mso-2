@@ -3,27 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using mso_2.Commands;
 
-namespace mso_2
+namespace mso_2.Input
 {
     internal interface ExamplePrograms
     {
         ICommand GetCommand();
     }
 
-    internal class BasicProgram() 
+    internal class BasicProgram()
     {
-        public ICommand GetCommand() 
+        public ICommand GetCommand()
         {
             CompositeCommand compCommand = new CompositeCommand();
             compCommand.Add(new MoveCommand(10));
             compCommand.Add(new TurnCommand(TurnDirection.Right));
             compCommand.Add(new MoveCommand(10));
-            compCommand.Add(new TurnCommand(TurnDirection.Right));
-            compCommand.Add(new MoveCommand(10));
-            compCommand.Add(new TurnCommand(TurnDirection.Right));
-            compCommand.Add(new MoveCommand(10));
-            compCommand.Add(new TurnCommand(TurnDirection.Right));
 
             return compCommand;
         }
@@ -35,9 +31,9 @@ namespace mso_2
         {
             CompositeCommand compCommand = new CompositeCommand();
 
-            RepeatCommand repeatCommand = new RepeatCommand(4);
-            compCommand.Add(new MoveCommand(10));
-            compCommand.Add(new TurnCommand(TurnDirection.Right));
+            RepeatCommand repeatCommand = new RepeatCommand(3);
+            repeatCommand.Add(new MoveCommand(5));
+            repeatCommand.Add(new TurnCommand(TurnDirection.Left));
             compCommand.Add(repeatCommand);
 
             return compCommand;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace mso_2
+namespace mso_2.Input
 {
     internal static class InputFactory
     {

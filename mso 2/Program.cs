@@ -5,6 +5,7 @@ using System.Numerics;
 using Xunit;
 class Program
 {
+    [STAThread]
     static void Main()
     {
         /*ICommand command = new CompositeCommand();
