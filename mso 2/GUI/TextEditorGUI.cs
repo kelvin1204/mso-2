@@ -47,7 +47,22 @@ namespace mso_2
 
         private void Metrics_Click(object sender, EventArgs e)
         {
+            Output.Text = client.GetMetrics("string", TextBox.Lines);
+        }
 
+        private void Export_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveDialog = new SaveFileDialog())
+            {
+                saveDialog.Filter = "Textbestand (*.txt)|*.txt";
+                saveDialog.Title = "Kies waar je het bestand wilt opslaan";
+                saveDialog.FileName = "mijn_bestand.txt"; // standaard naam
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    File.WriteAllText(saveDialog.FileName, TextBox.Text);
+                }
+            }
         }
 
         public void SetEditorText(string text) 
