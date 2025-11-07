@@ -22,12 +22,14 @@ namespace mso_2
         {
             // Given
             Grid grid = new Grid(5, 5);
-            MoveEntity entity = new MoveEntity(new Vector2(-1, 0), new Vector2(), grid);
+            MoveEntity entity = new MoveEntity(new Vector2(-1, 0), new Vector2(0,0), grid);
             // When
             bool result = grid.CheckBounds(new Vector2(6, 6));
             // Then
             Assert.False(result);
         }
+
+
         [Fact]
         public void CheckAheadWorksOccupied()
         {
@@ -38,7 +40,8 @@ namespace mso_2
             // When
             bool result = grid.CheckAhead(entity);
             // Then
-            Assert.True(result);
+            //changed it to check if we can walk there instaed of if it's occupied so changed that
+            Assert.False(result);
         }
         [Fact]
         public void CheckAheadWorksUnoccupied()
@@ -50,7 +53,7 @@ namespace mso_2
             // When
             bool result = grid.CheckAhead(entity);
             // Then
-            Assert.False(result);
+            Assert.True(result);
         }
         [Fact]
         public void SwitchOccupiedWorks()

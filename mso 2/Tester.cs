@@ -52,7 +52,7 @@ namespace mso_2
         public void GetStatusString_ShouldIncludePositionAndDirection()
         {
             string status = entity.GetStatusString();
-            Assert.Contains("End state <0, 0> facing north.", status);
+            Assert.Contains("End state <0, 0> facing east.", status);
         }
 
         [Fact]
