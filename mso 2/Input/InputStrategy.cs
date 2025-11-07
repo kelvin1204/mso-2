@@ -83,13 +83,12 @@ namespace mso_2.Input
 
             else if (lineNestDepth < nests)
             {
-                Console.WriteLine(line);
-                Console.WriteLine(lineNestDepth.ToString());
                 nestedCommands = nestedCommands[..^(nests - lineNestDepth)];
+                ((dynamic)nestedCommands[^1]).Add(lineCommand);
             }
 
 
-            else if (lineArgs[0] == "Repeat" || lineArgs[0] == "MoveUntil")
+            else if (lineArgs[0] == "Repeat" || lineArgs[0] == "DoUntil")
             {
                 // when a new container is created (Repeat or MoveUntil) we add it
                 // to its parent container which is the previous item on the stack
@@ -148,6 +147,8 @@ namespace mso_2.Input
 
         private ICommand ProcessDoUntil(string condition)
         {
+
+            //should probably compare this to a stripped condition.lowercase or something
             if (string.Equals(condition, "HitWall", StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(condition, "Hitwall", StringComparison.OrdinalIgnoreCase))
             {

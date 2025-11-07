@@ -73,8 +73,11 @@ namespace mso_2
             return !_occupied[(int)position.X, (int)position.Y];
         }
         //check if the given position is within the grid bounds
+
         public bool CheckBounds(Vector2 position)
         {
+            if (position.X < 0 || position.Y < 0)
+                return false;
             return (position.X < _width && position.Y < _height);
         }
     }

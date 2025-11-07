@@ -47,7 +47,7 @@ namespace mso_2
 
         private void Metrics_Click(object sender, EventArgs e)
         {
-
+            Output.Text = client.GetMetrics("string", TextBox.Lines);
         }
 
         public void SetEditorText(string text) 

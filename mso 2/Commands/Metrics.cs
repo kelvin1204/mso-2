@@ -33,6 +33,14 @@ namespace mso_2.Commands
                     foreach (var cmd in repeatCommand._commands)
                         Travel(cmd, depth + 1);
                     break;
+                
+                case DoUntilCommand DoUntilCommand:
+                    repeats++;
+                    totalCommands++;
+                    nests = Math.Max(nests, depth + 1);
+                    foreach (var cmd in DoUntilCommand._commands)
+                        Travel(cmd, depth + 1);
+                    break;
 
                 case CompositeCommand compositeCommand:
                     foreach (var cmd in compositeCommand._commands)
@@ -43,10 +51,7 @@ namespace mso_2.Commands
                     totalCommands++ ;
                     break;
 
-                //todo
-                case DoUntilCommand DoUntilCommand:
-                    totalCommands++;
-                    break;
+
 
                 case TurnCommand turnCommand:
                     totalCommands++;
