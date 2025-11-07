@@ -83,13 +83,12 @@ namespace mso_2.Input
 
             else if (lineNestDepth < nests)
             {
-                Console.WriteLine(line);
-                Console.WriteLine(lineNestDepth.ToString());
                 nestedCommands = nestedCommands[..^(nests - lineNestDepth)];
+                ((dynamic)nestedCommands[^1]).Add(lineCommand);
             }
 
 
-            else if (lineArgs[0] == "Repeat" || lineArgs[0] == "MoveUntil")
+            else if (lineArgs[0] == "Repeat" || lineArgs[0] == "DoUntil")
             {
                 // when a new container is created (Repeat or MoveUntil) we add it
                 // to its parent container which is the previous item on the stack
