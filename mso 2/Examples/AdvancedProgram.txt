@@ -2,7 +2,3 @@
     DoUntil HitWall
         Move 1
     Turn right
-Repeat 2
-    DoUntil HitEdge
-        Move 1
-    Turn right

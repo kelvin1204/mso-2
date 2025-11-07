@@ -41,12 +41,12 @@ namespace mso_2.Commands
 
 
             string result = "";
-            //int runs = 0;
+            int runs = 0;
 
             // Run the contained commands repeatedly until the condition is met.
-            while (true)
+            while (runs < 1000)
             {
-                //runs++;
+                runs++;
                 bool stop = _condition switch
                 {
                     UntilCondition.HitWall => !entity.CanMoveAhead(),
