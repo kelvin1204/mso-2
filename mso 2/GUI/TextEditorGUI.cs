@@ -62,7 +62,7 @@ namespace mso_2
                 {
                     File.WriteAllText(saveDialog.FileName, TextBox.Text);
                 }
-            }
+            }            Output.Text = client.GetMetrics("string", TextBox.Lines);
         }
 
         public void SetEditorText(string text) 

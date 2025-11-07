@@ -147,6 +147,8 @@ namespace mso_2.Input
 
         private ICommand ProcessDoUntil(string condition)
         {
+
+            //should probably compare this to a stripped condition.lowercase or something
             if (string.Equals(condition, "HitWall", StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(condition, "Hitwall", StringComparison.OrdinalIgnoreCase))
             {
