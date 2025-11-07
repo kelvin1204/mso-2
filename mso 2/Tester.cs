@@ -46,17 +46,6 @@ namespace mso_2
 
 
 
-        [Fact]
-        public void TryMove_ReturnsTrue()
-        {
-            var grid = new Grid(5, 5);
-            var entity = new MoveEntity(new Vector2(1, 0), new Vector2(2, 2), grid);
-
-            bool result = grid.TryMove(entity, 2);
-
-            Assert.True(result);
-        }
-
 
 
         [Fact]

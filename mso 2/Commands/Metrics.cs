@@ -43,6 +43,11 @@ namespace mso_2.Commands
                     totalCommands++ ;
                     break;
 
+                //todo
+                case DoUntilCommand DoUntilCommand:
+                    totalCommands++;
+                    break;
+
                 case TurnCommand turnCommand:
                     totalCommands++;
                     break;

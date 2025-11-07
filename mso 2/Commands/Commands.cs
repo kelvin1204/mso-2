@@ -19,6 +19,51 @@ namespace mso_2.Commands
         public MoveCommand(int steps) => _steps = steps;
         public string Execute(MoveEntity entity) => entity.Move(_steps);
     }
+    
+    // New command: move until a condition is met (hit a wall or hit the edge)
+    public enum UntilCondition
+    {
+        HitWall,
+        HitEdge
+    }
+
+    internal class DoUntilCommand : ICommand
+    {
+        private readonly UntilCondition _condition;
+        public readonly List<ICommand> _commands = new List<ICommand>();
+
+        public DoUntilCommand(UntilCondition condition) => _condition = condition;
+
+        public void Add(ICommand command) => _commands.Add(command);
+
+        public string Execute(MoveEntity entity)
+        {
+            // Ensure path recording starts from current position
+            entity.ResetLastPositions();
+
+            string result = "";
+
+            // Run the contained commands repeatedly until the condition is met.
+            while (true)
+            {
+                bool stop = _condition switch
+                {
+                    UntilCondition.HitWall => !entity.CanMoveAhead(),
+                    UntilCondition.HitEdge => !entity.IsNextInBounds(),
+                    _ => throw new ArgumentOutOfRangeException(nameof(_condition), _condition, "Unknown until condition")
+                };
+
+                if (stop) break;
+
+                foreach (var cmd in _commands)
+                {
+                    result += cmd.Execute(entity) + ", ";
+                }
+            }
+
+            return result.TrimEnd(',', ' ');
+        }
+    }
     public enum TurnDirection
     {
         Left,
