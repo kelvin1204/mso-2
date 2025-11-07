@@ -103,9 +103,9 @@ namespace mso_3
             switch (key)
             {
                 case (1, 0): return "east";
-                case (0, 1): return "north";
+                case (0, 1): return "south";
                 case (-1, 0): return "west";
-                case (0, -1): return "south";
+                case (0, -1): return "north";
 
                 default: return "";
             }
