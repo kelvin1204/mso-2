@@ -75,7 +75,7 @@ namespace mso_2
         //check if the given position is within the grid bounds
         public bool CheckBounds(Vector2 position)
         {
-            return (position.X <= _width && position.Y <= _height);
+            return (position.X < _width && position.Y < _height);
         }
     }
 }

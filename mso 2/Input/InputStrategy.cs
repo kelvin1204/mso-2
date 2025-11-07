@@ -38,14 +38,17 @@ namespace mso_2.Input
     internal class StringInput : IInputStrategy
     {
         protected CompositeCommand command;
-        protected List<RepeatCommand> nestedCommands;
+    // A stack of currently open container commands (RepeatCommand or DoUntilCommand)
+    // Stored as object so we can support multiple container types without
+    // modifying the Commands.cs file here. We call Add via dynamic dispatch.
+    protected List<object> nestedCommands;
 
         string[] lines = null;
         public StringInput(string[] Lines)
         {
             lines = Lines;
             command = new CompositeCommand();
-            nestedCommands = new List<RepeatCommand>();
+            nestedCommands = new List<object>();
         }
         public virtual ICommand Read()
         {
@@ -70,11 +73,11 @@ namespace mso_2.Input
             switch (lineArgs[0])
             {
                 case "Move": lineCommand = ProcessMove(lineArgs[1]); break;
+                case "DoUntil": lineCommand = ProcessDoUntil(lineArgs[1]); break;
                 case "Repeat": lineCommand = ProcessRepeat(lineArgs[1]); break;
                 case "Turn": lineCommand = ProcessTurn(lineArgs[1]); break;
                 default: throw new ArgumentException("Unknown input command");
             }
-
             if (lineIndenation == 0)
                 command.Add(lineCommand);
 
@@ -85,11 +88,24 @@ namespace mso_2.Input
                 nestedCommands = nestedCommands[..^(nests - lineNestDepth)];
             }
 
-            else if (lineArgs[0] == "Repeat")
-                nestedCommands[^2].Add(lineCommand);
 
+            else if (lineArgs[0] == "Repeat" || lineArgs[0] == "MoveUntil")
+            {
+                // when a new container is created (Repeat or MoveUntil) we add it
+                // to its parent container which is the previous item on the stack
+                if (nestedCommands.Count >= 2)
+                    ((dynamic)nestedCommands[^2]).Add(lineCommand);
+                else
+                    // no parent container -> add to root composite
+                    command.Add(lineCommand);
+            }
             else
-                nestedCommands[^1].Add(lineCommand);
+            {
+                if (nestedCommands.Count >= 1)
+                    ((dynamic)nestedCommands[^1]).Add(lineCommand);
+                else
+                    command.Add(lineCommand);
+            }
         }
 
         private ICommand ProcessMove(string steps)
@@ -128,6 +144,27 @@ namespace mso_2.Input
             {
                 throw new ArgumentException("Invalid amount of steps");
             }
+        }
+
+        private ICommand ProcessDoUntil(string condition)
+        {
+            if (string.Equals(condition, "HitWall", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(condition, "Hitwall", StringComparison.OrdinalIgnoreCase))
+            {
+                var cmd = new DoUntilCommand(UntilCondition.HitWall);
+                nestedCommands.Add(cmd);
+                return cmd;
+            }
+
+            if (string.Equals(condition, "HitEdge", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(condition, "Hitedge", StringComparison.OrdinalIgnoreCase))
+            {
+                var cmd = new DoUntilCommand(UntilCondition.HitEdge);
+                nestedCommands.Add(cmd);
+                return cmd;
+            }
+
+            throw new ArgumentException("Invalid MoveUntil condition");
         }
 
         private int CountIndentation(string text)

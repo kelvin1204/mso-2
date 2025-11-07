@@ -28,6 +28,7 @@ namespace mso_3
         public void ResetPosition() 
         {
             position = new Vector2(0, 0);
+            direction = new Vector2(1, 0);
         }
 
         public string Turn(TurnDirection turnDirection)
@@ -58,7 +59,7 @@ namespace mso_3
             for (int i = 0; i < steps; i++)
             {
                 Vector2 next = position + direction;
-
+                
                 // Check bounds first
                 if (!grid.CheckBounds(next))
                     throw new mso_2.OutOfBoundsException($"Attempted to move outside grid to {next}.");
@@ -66,7 +67,7 @@ namespace mso_3
                 // Check occupancy
                 if (!grid.CheckPositionFree(next))
                     throw new mso_2.BlockedCellException($"Attempted to move into blocked cell at {next}.");
-
+                
                 // Valid move: update position and record path
                 position = next;
                 lastPositions.Add(position);
@@ -78,6 +79,22 @@ namespace mso_3
         public string GetStatusString() 
         {
             return "End state " + position.ToString() + " facing "+ GetStringDirection() + ".";
+        }
+
+        // Return true when the next cell in the current direction is inside the grid
+        public bool IsNextInBounds()
+        {
+            Vector2 next = position + direction;
+            return grid.CheckBounds(next);
+        }
+
+        // Return true when the next cell is inside the grid and not occupied
+        public bool CanMoveAhead()
+        {
+            Vector2 next = position + direction;
+            if (!grid.CheckBounds(next)) return false;
+            Console.WriteLine(next.X.ToString() + " " + next.Y.ToString());
+            return !grid._occupied[(int)next.X, (int)next.Y];
         }
 
         private string GetStringDirection()
