@@ -12,6 +12,7 @@ public partial class GridGUI : UserControl
     ClientGUI clientGUI;
 
     private Bitmap playerSprite;
+    private Bitmap goalSprite;
 
     public GridGUI(ClientGUI ClientGUI)
     {
@@ -22,6 +23,7 @@ public partial class GridGUI : UserControl
         clientGUI = ClientGUI;
 
         playerSprite = new Bitmap(@"..\..\..\player.png");
+        goalSprite = new Bitmap(@"..\..\..\goal.png");
 
         this.BackColor = Color.White;
 
@@ -48,6 +50,7 @@ public partial class GridGUI : UserControl
         DrawGrid(e.Graphics, size);
         DrawPath(e.Graphics, size);
         DrawPlayer(e.Graphics, size);
+        DrawGoal(e.Graphics, size);
     }
 
     private void DrawGrid(Graphics g, float size)
@@ -87,5 +90,11 @@ public partial class GridGUI : UserControl
     {
         Vector2 playerPos = clientGUI.GetPlayerPos();
         g.DrawImage(playerSprite, new RectangleF(playerPos.X * size, playerPos.Y * size, size, size));
+    }
+
+    private void DrawGoal(Graphics g, float size)
+    {
+        Vector2 gridPos = clientGUI.GetGridGoalPos();
+        g.DrawImage(goalSprite, new RectangleF(gridPos.X * size, gridPos.Y * size, size, size));
     }
 }

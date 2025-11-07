@@ -38,7 +38,8 @@ namespace mso_2.Commands
 
         public string Execute(MoveEntity entity)
         {
-
+            // Ensure path recording starts from current position
+            entity.ResetLastPositions();
 
             string result = "";
             int runs = 0;

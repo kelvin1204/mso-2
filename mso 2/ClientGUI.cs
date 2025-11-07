@@ -65,6 +65,11 @@ namespace mso_2
             return entity.lastPositions;
         }
 
+        public Vector2 GetGridGoalPos()
+        {
+            return grid.goal;
+        }
+
         public void LoadGridFromFile(string filePath)
         {
             grid.ImportOccupied(filePath);

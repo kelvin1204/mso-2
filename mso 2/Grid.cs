@@ -21,6 +21,7 @@ namespace mso_2
             _width = width;
             _height = height;
             _occupied = new bool[width, height];
+            goal = new Vector2(-1, -1);
         }
         public void SwitchOccupied(int x, int y) 
         {
