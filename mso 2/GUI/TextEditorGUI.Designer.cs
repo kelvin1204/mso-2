@@ -31,6 +31,7 @@
             TextBox = new TextBox();
             Run = new Button();
             Metrics = new Button();
+            Export = new Button();
             Output = new TextBox();
             SuspendLayout();
             // 
@@ -66,6 +67,18 @@
             Metrics.UseVisualStyleBackColor = false;
             Metrics.Click += Metrics_Click;
             // 
+            // Export
+            // 
+            Export.BackColor = SystemColors.Highlight;
+            Export.ForeColor = SystemColors.ButtonHighlight;
+            Export.Location = new Point(251, 328);
+            Export.Name = "Export";
+            Export.Size = new Size(250, 40);
+            Export.TabIndex = 2;
+            Export.Text = "Export";
+            Export.UseVisualStyleBackColor = false;
+            Export.Click += Export_Click;
+            // 
             // Output
             // 
             Output.BackColor = SystemColors.Info;
@@ -81,6 +94,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(Output);
+            Controls.Add(Export);
             Controls.Add(Metrics);
             Controls.Add(Run);
             Controls.Add(TextBox);
@@ -95,6 +109,7 @@
         private TextBox TextBox;
         private Button Run;
         private Button Metrics;
+        private Button Export;
         private TextBox Output;
     }
 }
